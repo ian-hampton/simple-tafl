@@ -1,0 +1,14 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "9000:5000"
+    networks:
+      - simple-tafl
+
+networks:
+  simple-tafl:
+    name: simple-tafl
+    driver: bridge

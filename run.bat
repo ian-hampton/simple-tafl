@@ -1,4 +1,3 @@
 @echo off
-call .venv\Scripts\activate.bat
-python server\app.py
-pause
+docker compose build
+docker compose up
