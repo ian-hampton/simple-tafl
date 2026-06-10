@@ -1,10 +1,19 @@
 services:
-  server:
+  frontend:
     build:
-      context: ./server
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "9000:5000"
+      - "3000:5173"
+    networks:
+      - simple-tafl
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:5000"
     networks:
       - simple-tafl
 
