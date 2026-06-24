@@ -2,19 +2,21 @@
 import { ref, onMounted } from 'vue'
 import * as api from './services/api'
 
-const message = ref("Loading...")
+const board = ref("")
 
 onMounted(async () => {
   try {
-    const data = await api.test()
-    message.value = data.message
+    const data = await api.getBoardState()
+    board.value = data.state
   } catch (err) {
-    message.value = "Failed to connect to backend."
+    console.log("Failed to get board state.")
   }
 })
 </script>
 
 <template>
+
+  <div>
 
   <svg height="1000px" viewBox="0 0 277 277">
     <rect class="tile" x="1" y="1"/>
@@ -149,5 +151,9 @@ onMounted(async () => {
     <rect class="tile" x="226" y="251"/>
     <rect class="tile" x="251" y="251"/>
   </svg>
+
+  <p>{{ board }}</p>
+
+  </div>
 
 </template>
