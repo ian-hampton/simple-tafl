@@ -1,0 +1,16 @@
+BOARD_STATE = (
+    "XXXXBBBXXXX"
+    "XXXXBBBXXXX"
+    "XXXXXWXXXXX"
+    "XXXXXWXXXXX"
+    "BBXXXWXXXBB"
+    "BBWWWKWWWBB"
+    "BBXXXWXXXBB"
+    "XXXXXWXXXXX"
+    "XXXXXWXXXXX"
+    "XXXXBBBXXXX"
+    "XXXXBBBXXXX"
+)
+
+def get_board_state():
+    return BOARD_STATE
