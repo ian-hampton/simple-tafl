@@ -2,6 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import * as api from './services/api'
 
+const tileSize = 25
+
 function parseBoard(state) {
   const xInit = 1;
   const yInit = 1;
@@ -48,26 +50,28 @@ onMounted(async () => {
         :y="tile.y"
       />
 
-      <!-- <circle
+      <circle
         v-if="tile.type === 'B'"
-        :cx="tile.cx"
-        :cy="tile.cy"
+        fill="#000000"
+        :cx="tile.x + tileSize / 2"
+        :cy="tile.y + tileSize / 2"
         r="10"
       />
 
       <circle
         v-else-if="tile.type === 'W'"
-        :cx="tile.cx"
-        :cy="tile.cy"
+        fill="#FFFFFF"
+        :cx="tile.x + tileSize / 2"
+        :cy="tile.y + tileSize / 2"
         r="10"
       />
 
-      <circle
+      <rect
         v-else-if="tile.type === 'K'"
-        :cx="tile.cx"
-        :cy="tile.cy"
-        r="10"
-      /> -->
+        class="king"
+        :x="tile.x + 2"
+        :y="tile.y + 2"
+      />
 
     </template>
 

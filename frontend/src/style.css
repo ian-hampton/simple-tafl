@@ -6,3 +6,8 @@
     stroke: black;
     vector-effect: non-scaling-stroke;
 }
+.king {
+    width: 21px;
+    height: 21px;
+    fill: #FFFFFF;
+}
