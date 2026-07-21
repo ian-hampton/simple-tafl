@@ -12,5 +12,5 @@ BOARD_STATE = (
     "XXXXBBBXXXX"
 )
 
-def get_board_state():
+def get_board_state() -> str:
     return BOARD_STATE
