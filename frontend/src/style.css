@@ -1,13 +1,9 @@
 .tile {
-    width: 25px;
-    height: 25px;
     fill: #379341;
     stroke-width: 1;
     stroke: black;
     vector-effect: non-scaling-stroke;
 }
 .king {
-    width: 21px;
-    height: 21px;
     fill: #FFFFFF;
 }

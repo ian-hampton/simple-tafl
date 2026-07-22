@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import * as api from './services/api'
 
+const board = ref("");
 const tileSize = 25
 
 function parseBoard(state) {
@@ -16,9 +17,11 @@ function parseBoard(state) {
 
     const col = count % 11;
     const row = Math.floor(count / 11);
+    const colLetter = String.fromCharCode(col + 97);
 
     objects.push({
       id: count,
+      location: `${colLetter}${11 - row}`,
       type: char,
       x: xInit + col * diff,
       y: yInit + row * diff
@@ -28,7 +31,9 @@ function parseBoard(state) {
   return objects;
 }
 
-const board = ref("");
+const onTileClick = (tile) => {
+  console.log("User clicked on a tile. ID:", tile.id, "Location:", tile.location);
+};
 
 const tiles = computed(() => parseBoard(board.value));
 
@@ -44,34 +49,42 @@ onMounted(async () => {
 
     <template v-for="tile in tiles" :key="tile.id">
 
-      <rect
-        class="tile"
-        :x="tile.x"
-        :y="tile.y"
-      />
+      <g :transform="`translate(${tile.x}, ${tile.y})`" @click="onTileClick(tile)">
+    
+        <rect
+          class="tile"
+          :tile_id="tile.id"
+          :tile_location="tile.location"
+          :width="tileSize" 
+          :height="tileSize"
+        />
 
-      <circle
-        v-if="tile.type === 'B'"
-        fill="#000000"
-        :cx="tile.x + tileSize / 2"
-        :cy="tile.y + tileSize / 2"
-        r="10"
-      />
+        <circle
+          v-if="tile.type === 'B'"
+          fill="#000000"
+          :cx="tileSize / 2"
+          :cy="tileSize / 2"
+          r="10"
+        />
 
-      <circle
-        v-else-if="tile.type === 'W'"
-        fill="#FFFFFF"
-        :cx="tile.x + tileSize / 2"
-        :cy="tile.y + tileSize / 2"
-        r="10"
-      />
+        <circle
+          v-else-if="tile.type === 'W'"
+          fill="#FFFFFF"
+          :cx="tileSize / 2"
+          :cy="tileSize / 2"
+          r="10"
+        />
 
-      <rect
-        v-else-if="tile.type === 'K'"
-        class="king"
-        :x="tile.x + 2"
-        :y="tile.y + 2"
-      />
+        <rect
+          v-else-if="tile.type === 'K'"
+          class="king"
+          x="2"
+          y="2"
+          :width="tileSize - 4"
+          :height="tileSize - 4"
+        />
+
+      </g>
 
     </template>
 
