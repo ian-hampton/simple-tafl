@@ -1,9 +1,3 @@
 .tile {
     fill: #379341;
-    stroke-width: 1;
-    stroke: black;
-    vector-effect: non-scaling-stroke;
-}
-.king {
-    fill: #FFFFFF;
 }
