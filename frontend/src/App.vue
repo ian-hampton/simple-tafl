@@ -125,20 +125,20 @@ onMounted(async () => {
           class="tile"
           :tile_id="tile.id"
           :tile_location="tile.location"
+          :fill="selected.has(tile.location) ? '#555' : 'transparent'"
           :width="tileSize"
           :height="tileSize"
-          :fill="selected.has(tile.location) ? '#555' : 'transparent'"
         />
 
         <rect
           v-if="selected.has(tile.location)"
+          fill="none"
+          stroke="white"
+          stroke-width="2"
           :x="1"
           :y="1"
           :width="tileSize - 2"
           :height="tileSize - 2"
-          fill="none"
-          stroke="white"
-          stroke-width="2"
         />
 
         <circle
@@ -169,7 +169,7 @@ onMounted(async () => {
 
     </template>
 
-    <g stroke="black" stroke-width="2">
+    <g stroke="#332419" stroke-width="2">
       <line
         v-for="(line, index) in gridLines"
         :key="index"
