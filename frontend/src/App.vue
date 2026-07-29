@@ -115,71 +115,77 @@ onMounted(async () => {
 
 <template>
 
-  <svg height="1000px" viewBox="0 0 552 552">
+  <body>
 
-    <template v-for="tile in tiles" :key="tile.id">
+    <svg viewBox="0 0 552 552" width="750px" height="750px">
 
-      <g :transform="`translate(${tile.x}, ${tile.y})`" @click="onTileClick(tile)">
+      <template v-for="tile in tiles" :key="tile.id">
 
-        <rect
-          class="tile"
-          :tile_id="tile.id"
-          :tile_location="tile.location"
-          :fill="selected.has(tile.location) ? '#555' : 'transparent'"
-          :width="tileSize"
-          :height="tileSize"
+        <g :transform="`translate(${tile.x}, ${tile.y})`" @click="onTileClick(tile)">
+
+          <rect
+            class="tile"
+            :tile_id="tile.id"
+            :tile_location="tile.location"
+            :fill="selected.has(tile.location) ? '#555' : 'transparent'"
+            :width="tileSize"
+            :height="tileSize"
+          />
+
+          <rect
+            v-if="selected.has(tile.location)"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            :x="1"
+            :y="1"
+            :width="tileSize - 2"
+            :height="tileSize - 2"
+          />
+
+          <circle
+            v-if="tile.type === 'B'"
+            fill="#000000"
+            :cx="tileSize / 2"
+            :cy="tileSize / 2"
+            r="16"
+          />
+
+          <circle
+            v-else-if="tile.type === 'W'"
+            fill="#FFFFFF"
+            :cx="tileSize / 2"
+            :cy="tileSize / 2"
+            r="16"
+          />
+
+          <circle
+            v-else-if="tile.type === 'K'"
+            fill="#FFFFFF"
+            :cx="tileSize / 2"
+            :cy="tileSize / 2"
+            r="20"
+          />
+
+        </g>
+
+      </template>
+
+      <g stroke="#332419" stroke-width="2">
+        <line
+          v-for="(line, index) in gridLines"
+          :key="index"
+          :x1="line.x1"
+          :y1="line.y1"
+          :x2="line.x2"
+          :y2="line.y2"
         />
-
-        <rect
-          v-if="selected.has(tile.location)"
-          fill="none"
-          stroke="white"
-          stroke-width="2"
-          :x="1"
-          :y="1"
-          :width="tileSize - 2"
-          :height="tileSize - 2"
-        />
-
-        <circle
-          v-if="tile.type === 'B'"
-          fill="#000000"
-          :cx="tileSize / 2"
-          :cy="tileSize / 2"
-          r="16"
-        />
-
-        <circle
-          v-else-if="tile.type === 'W'"
-          fill="#FFFFFF"
-          :cx="tileSize / 2"
-          :cy="tileSize / 2"
-          r="16"
-        />
-
-        <circle
-          v-else-if="tile.type === 'K'"
-          fill="#FFFFFF"
-          :cx="tileSize / 2"
-          :cy="tileSize / 2"
-          r="20"
-        />
-
       </g>
 
-    </template>
+    </svg>
 
-    <g stroke="#332419" stroke-width="2">
-      <line
-        v-for="(line, index) in gridLines"
-        :key="index"
-        :x1="line.x1"
-        :y1="line.y1"
-        :x2="line.x2"
-        :y2="line.y2"
-      />
-    </g>
+    <h2>Black turn.</h2>
 
-  </svg>
+  </body>
 
 </template>
