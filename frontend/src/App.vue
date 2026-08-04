@@ -3,10 +3,16 @@ import { computed, onMounted, ref, reactive } from 'vue'
 import * as api from './services/api'
 
 const board = ref("");
+const turn = ref("");
 const tileSize = 50
 const select1 = ref("");
 const select2 = ref("");
 const selected = reactive(new Set())
+
+const PLAYER_PIECES = {
+  Black: ['B'],
+  White: ['W', 'K']
+};
 
 function parseBoard(state) {
   const xInit = 1;
@@ -36,21 +42,33 @@ function parseBoard(state) {
 
 const onTileClick = async (tile) => {
   console.log("User clicked on a tile. ID:", tile.id, "Location:", tile.location);
+
+  // disable selection if game is over
+  if (["Black Win", "White Win"].includes(turn.value)) {
+    return;
+  }
   
   // select start
   if (!select1.value) {
-    if (tile.type !== '-') {
-      // if piece present on tile save start location
-      select1.value = tile.location;
-      console.log("Saved", select1.value, "as select1.");
-      // fetch all locations this piece could move to and highlight board
-      const response = await api.getLegalMoves(tile.location);
-      selected.clear()
-      selected.add(tile.location)
-      for (const location of response.moves) {
-        selected.add(location)
-      }
+    
+    // check that piece belongs to active player
+    const validTypes = PLAYER_PIECES[turn.value];
+    if (!validTypes.includes(tile.type)) {
+      return;
     }
+
+    // save start location
+    select1.value = tile.location;
+    console.log("select1 =", select1.value);
+    
+    // fetch all locations this piece could move to and highlight board
+    const response = await api.getLegalMoves(tile.location);
+    selected.clear()
+    selected.add(tile.location)
+    for (const location of response.moves) {
+      selected.add(location)
+    }
+
     return;
   }
 
@@ -68,7 +86,7 @@ const onTileClick = async (tile) => {
   } else {
     // otherwise save destination location
     select2.value = tile.location;
-    console.log("Saved", select2.value, "as select2.");
+    console.log("select2 =", select2.value);
   }
 
   // TODO: prompt user to confirm move
@@ -109,7 +127,8 @@ const gridLines = computed(() => {
 
 onMounted(async () => {
   const response = await api.getBoardState();
-  board.value = response.state;
+  board.value = response.board;
+  turn.value = response.turn;
 })
 </script>
 

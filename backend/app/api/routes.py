@@ -1,15 +1,16 @@
 from flask import Blueprint, request, jsonify
 
 from app.core import board
+from app.core import state
 from app.core import validation
 
 api_bp = Blueprint("api", __name__)
 
 @api_bp.route("/state", methods=["GET"])
-def state():
-    board_state = board.get_board_state()
+def game_state():
     data = {
-        "state": board_state
+        "board": board.get_board_state(),
+        "turn": state.get_game_state()
     }
     return jsonify(data)
 
