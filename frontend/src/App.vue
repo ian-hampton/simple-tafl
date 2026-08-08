@@ -3,11 +3,12 @@ import { computed, onMounted, ref, reactive } from 'vue'
 import * as api from './services/api'
 
 const board = ref("");
+const tileSize = 50;
+
 const turn = ref("");
-const tileSize = 50
 const select1 = ref("");
 const select2 = ref("");
-const selected = reactive(new Set())
+const selected = reactive(new Set());
 
 const PLAYER_PIECES = {
   Black: ['B'],
@@ -63,8 +64,8 @@ const onTileClick = async (tile) => {
     
     // fetch all locations this piece could move to and highlight board
     const response = await api.getLegalMoves(tile.location);
-    selected.clear()
-    selected.add(tile.location)
+    selected.clear();
+    selected.add(tile.location);
     for (const location of response.moves) {
       selected.add(location)
     }
@@ -77,12 +78,12 @@ const onTileClick = async (tile) => {
     // deselect if same piece selected twice
     select1.value = null;
     select2.value = null;
-    selected.clear()
+    selected.clear();
   } else if (!selected.has(tile.location)) {
     // deselect if not valid move
     select1.value = null;
     select2.value = null;
-    selected.clear()
+    selected.clear();
   } else {
     // otherwise save destination location
     select2.value = tile.location;
