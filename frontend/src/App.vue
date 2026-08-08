@@ -3,16 +3,17 @@ import { computed, onMounted, ref, reactive } from 'vue'
 import * as api from './services/api'
 
 const board = ref("");
-const tileSize = 50;
-
 const turn = ref("");
+
 const select1 = ref("");
 const select2 = ref("");
 const selected = reactive(new Set());
 
-const PLAYER_PIECES = {
-  Black: ['B'],
-  White: ['W', 'K']
+const tileSize = 50;
+
+const playerPieces = {
+  "Black turn.": ['B'],
+  "White turn.": ['W', 'K']
 };
 
 function parseBoard(state) {
@@ -45,7 +46,7 @@ const onTileClick = async (tile) => {
   console.log("User clicked on a tile. ID:", tile.id, "Location:", tile.location);
 
   // disable selection if game is over
-  if (["Black Win", "White Win"].includes(turn.value)) {
+  if (["Black player wins!", "White player wins!"].includes(turn.value)) {
     return;
   }
   
@@ -53,7 +54,7 @@ const onTileClick = async (tile) => {
   if (!select1.value) {
     
     // check that piece belongs to active player
-    const validTypes = PLAYER_PIECES[turn.value];
+    const validTypes = playerPieces[turn.value];
     if (!validTypes.includes(tile.type)) {
       return;
     }
@@ -204,7 +205,7 @@ onMounted(async () => {
 
     </svg>
 
-    <h2>Black turn.</h2>
+    <h2>{{ turn }}</h2>
 
   </body>
 

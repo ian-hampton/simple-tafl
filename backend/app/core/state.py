@@ -1,12 +1,12 @@
 from enum import Enum
 
 class GameState(str, Enum):
-    BLACK_TURN = "Black"
-    WHITE_TURN = "White"
-    BLACK_WIN = "Black Win"
-    WHITE_WIN = "White Win"
+    BLACK_TURN = "Black turn."
+    WHITE_TURN = "White turn."
+    BLACK_WIN = "Black player wins!" 
+    WHITE_WIN = "White player wins!"
 
-STATE = GameState.BLACK_TURN
+STATE = GameState.BLACK_WIN
 
 def get_game_state() -> str:
     return STATE.value
