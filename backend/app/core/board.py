@@ -31,7 +31,14 @@ def get_tile_info(id: str) -> list:
     id = int(id)
     if id not in range(0, 121):
         return ["N/A", "N/A"]
-    return [f"{id}", BOARD_STATE[id]]
+    return [f"{int(id)}", BOARD_STATE[id]]
+
+def set_tile(id: str, state: str) -> None:
+    global BOARD_STATE
+    id = int(id)
+    if id not in range(0, 121):
+        return
+    BOARD_STATE = BOARD_STATE[:id] + state + BOARD_STATE[id + 1:]
 
 def increment_up(id: str) -> list:
     id = int(id)

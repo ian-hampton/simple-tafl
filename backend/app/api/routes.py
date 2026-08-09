@@ -1,8 +1,9 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, abort
 
 from app.core import board
 from app.core import state
 from app.core import validation
+from app.core import move
 
 api_bp = Blueprint("api", __name__)
 
@@ -12,7 +13,7 @@ def game_state():
         "board": board.get_board_state(),
         "turn": state.get_game_state()
     }
-    return jsonify(data)
+    return data
 
 @api_bp.route("/moves", methods=["POST"])
 def moves():
@@ -29,5 +30,24 @@ def moves():
     data = {
         "moves": legal_moves_final
     }
+    
+    return data
 
-    return jsonify(data)
+@api_bp.route("/move", methods=["POST"])
+def resolve_move():
+    data = request.get_json()
+    start = data.get("start")
+    dest = data.get("end")
+
+    start_id = board.location_to_id(start)
+    dest_id = board.location_to_id(dest)
+
+    # reject move if it is invalid - should not occur just in case
+    legal_moves = validation.get_legal_moves(start_id)
+    if dest_id not in legal_moves:
+        abort(422)
+
+    # resolve move
+    move.resolve(start_id, dest_id)
+
+    return {}, 200

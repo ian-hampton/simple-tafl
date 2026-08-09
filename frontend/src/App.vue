@@ -46,18 +46,14 @@ const onTileClick = async (tile) => {
   console.log("User clicked on a tile. ID:", tile.id, "Location:", tile.location);
 
   // disable selection if game is over
-  if (["Black player wins!", "White player wins!"].includes(turn.value)) {
-    return;
-  }
+  if (["Black player wins!", "White player wins!"].includes(turn.value)) return;
   
   // select start
   if (!select1.value) {
     
     // check that piece belongs to active player
     const validTypes = playerPieces[turn.value];
-    if (!validTypes.includes(tile.type)) {
-      return;
-    }
+    if (!validTypes.includes(tile.type)) return;
 
     // save start location
     select1.value = tile.location;
@@ -74,7 +70,7 @@ const onTileClick = async (tile) => {
     return;
   }
 
-  // select end
+  // select destination
   if (tile.location === select1.value) {
     // deselect if same piece selected twice
     select1.value = null;
@@ -91,9 +87,18 @@ const onTileClick = async (tile) => {
     console.log("select2 =", select2.value);
   }
 
-  // TODO: prompt user to confirm move
-  // TODO: validate and execute move
+  // execute move
+  if (select1.value !== null && select2.value !== null) {
+    const move = await api.resolveMove(select1.value, select2.value);
+    if (!move) return;
+    const response = await api.getBoardState();
+    board.value = response.board;
+    turn.value = response.turn;
+  }
 
+  select1.value = null;
+  select2.value = null;
+  selected.clear();
   return;
 };
 
