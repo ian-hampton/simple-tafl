@@ -42,6 +42,12 @@ function parseBoard(state) {
   return objects;
 }
 
+function clearSelection() {
+  select1.value = null;
+  select2.value = null;
+  selected.clear();
+}
+
 const onTileClick = async (tile) => {
   console.log("User clicked on a tile. ID:", tile.id, "Location:", tile.location);
 
@@ -73,14 +79,12 @@ const onTileClick = async (tile) => {
   // select destination
   if (tile.location === select1.value) {
     // deselect if same piece selected twice
-    select1.value = null;
-    select2.value = null;
-    selected.clear();
+    clearSelection();
+    return;
   } else if (!selected.has(tile.location)) {
     // deselect if not valid move
-    select1.value = null;
-    select2.value = null;
-    selected.clear();
+    clearSelection();
+    return;
   } else {
     // otherwise save destination location
     select2.value = tile.location;
@@ -88,17 +92,15 @@ const onTileClick = async (tile) => {
   }
 
   // execute move
-  if (select1.value !== null && select2.value !== null) {
-    const move = await api.resolveMove(select1.value, select2.value);
-    if (!move) return;
-    const response = await api.getBoardState();
-    board.value = response.board;
-    turn.value = response.turn;
-  }
+  const move = await api.resolveMove(select1.value, select2.value);
+  if (!move) return;
+  
+  // update board after successful move
+  const response = await api.getBoardState();
+  board.value = response.board;
+  turn.value = response.turn;
+  clearSelection();
 
-  select1.value = null;
-  select2.value = null;
-  selected.clear();
   return;
 };
 
