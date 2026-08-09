@@ -40,6 +40,27 @@ def set_tile(id: str, state: str) -> None:
         return
     BOARD_STATE = BOARD_STATE[:id] + state + BOARD_STATE[id + 1:]
 
+def is_white(id: str) -> bool:
+    tile = get_tile_info(id)
+    if tile[1] in ['W', 'K']:
+        return True
+    return False
+
+def is_black(id: str) -> bool:
+    tile = get_tile_info(id)
+    if tile[1] == 'B':
+        return True
+    return False
+
+def is_hostile(id_1: str, id_2: str) -> bool:
+    if id_1 == 'N/A' or id_2 == 'N/A':
+        return False
+    if is_white(id_1) and is_black(id_2):
+        return True
+    if is_black(id_1) and is_white(id_2):
+        return True
+    return False
+
 def increment_up(id: str) -> list:
     id = int(id)
     col = id % 11
