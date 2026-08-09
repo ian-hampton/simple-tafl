@@ -1,4 +1,5 @@
 from app.core import board
+from app.core import state
 
 def resolve(start_id: str, dest_id: str) -> None:
 
@@ -8,6 +9,7 @@ def resolve(start_id: str, dest_id: str) -> None:
 
     # TODO - piece capture
 
-    # TODO - update turn (and check for victory)
+    # update turn (and check for victory)
+    state.set_game_state()
 
     return
