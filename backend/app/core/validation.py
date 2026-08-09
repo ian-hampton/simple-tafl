@@ -1,6 +1,17 @@
 from app.core import board
 
 def get_legal_moves(id: str) -> list:
+    """
+    Fetches all legal destinations for a piece at a specific location.
+
+    In Simple Tafl, all pieces move like a rook in chess, but can only move into empty spaces.
+
+    Args:
+        id (str): Numerical index.
+
+    Returns:
+        list: List of all legal destinations.
+    """
     adjacent = board.get_adjacent(id)
     up = adjacent[0]
     down = adjacent[1]
