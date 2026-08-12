@@ -79,6 +79,16 @@ def is_hostile(id_1: str, id_2: str) -> bool:
         return True
     return False
 
+def is_on_edge(id: str) -> bool:
+    id = int(id)
+    col = id % 11
+    row = id // 11
+    if col in [0, 10]:
+        return True
+    if row in [0, 10]:
+        return True
+    return False
+
 def increment_up(id: str) -> list:
     id = int(id)
     col = id % 11
