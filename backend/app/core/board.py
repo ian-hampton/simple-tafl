@@ -1,4 +1,4 @@
-BOARD_STATE = (
+STARTING_BOARD = (
     "----BBB----"
     "----BBB----"
     "-----W-----"
@@ -12,8 +12,14 @@ BOARD_STATE = (
     "----BBB----"
 )
 
+BOARD_STATE = STARTING_BOARD
+
 def get_board_state() -> str:
     return BOARD_STATE
+
+def reset() -> None:
+    global BOARD_STATE
+    BOARD_STATE = STARTING_BOARD
 
 def location_to_id(location: str) -> str:
     """

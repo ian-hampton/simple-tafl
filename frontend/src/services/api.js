@@ -46,3 +46,13 @@ export async function resolveMove(select1, select2) {
 
   return true;
 }
+
+export async function resetGame() {
+  const response = await fetch(`${API_BASE}/reset`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error("API request failed! Failed to reset game.");
+  }
+}

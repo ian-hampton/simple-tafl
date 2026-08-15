@@ -63,3 +63,14 @@ def execute_move(start: str, dest: str) -> bool:
     move.resolve(start_id, dest_id)
 
     return True
+
+def reset() -> bool:
+    """
+    Resets a game back to the original state.
+
+    Returns:
+        bool: True if move successful, False otherwise.
+    """
+    board.reset()
+    state.reset()
+    return True

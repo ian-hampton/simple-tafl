@@ -23,3 +23,8 @@ def resolve_move():
     if not success:
         abort(422)
     return {}, 200
+
+@api_bp.route("/reset", methods=["POST"])
+def game_reset():
+    services.reset()
+    return {}, 200

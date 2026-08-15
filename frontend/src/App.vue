@@ -42,6 +42,13 @@ function parseBoard(state) {
   return objects;
 }
 
+const handleReset = async () => {
+  await api.resetGame();
+  const response = await api.getBoardState();
+  board.value = response.board;
+  turn.value = response.turn;
+}
+
 function clearSelection() {
   select1.value = null;
   select2.value = null;
@@ -235,6 +242,10 @@ onMounted(async () => {
     </svg>
 
     <h2>{{ turn }}</h2>
+
+    <button v-if="turn.includes('win')" @click="handleReset()">
+      Reset
+    </button>
 
   </body>
 

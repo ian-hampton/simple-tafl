@@ -15,6 +15,10 @@ STATE = GameState.BLACK_TURN
 def get_game_state() -> str:
     return STATE.value
 
+def reset() -> None:
+    global STATE
+    STATE = GameState.BLACK_TURN
+
 def white_victory() -> bool:
     king_index = board.get_board_state().find('K')
     return board.is_on_edge(str(king_index))
