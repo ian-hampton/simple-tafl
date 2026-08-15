@@ -8,6 +8,8 @@ Play a game of Simple Tafl (11x11).
 * The Defender (white) wins if the King reaches any edge space.
 * The Attacker (black) wins by capturing the King or by encircling all Defender pieces.
 
+<img src="image.png" alt="Project Logo" width="500">
+
 ### Prerequisites
 * Built with Python 3.14.X and Docker Desktop.
 
