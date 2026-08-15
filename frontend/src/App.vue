@@ -147,10 +147,16 @@ onMounted(async () => {
 
     <svg viewBox="0 0 552 552" width="750px" height="750px">
 
+      <!-- template for board generation -->
       <template v-for="tile in tiles" :key="tile.id">
 
+        <!-- 
+        leveraging svg groups and translating it so that placement calculations are easier
+        onTileClick() handles all board interaction
+        -->
         <g :transform="`translate(${tile.x}, ${tile.y})`" @click="onTileClick(tile)">
-
+          
+          <!-- tile -->
           <rect
             class="tile"
             :tile_id="tile.id"
@@ -160,6 +166,7 @@ onMounted(async () => {
             :height="tileSize"
           />
 
+          <!-- selection highlight -->
           <rect
             v-if="selected.has(tile.location)"
             fill="none"
@@ -171,6 +178,7 @@ onMounted(async () => {
             :height="tileSize - 2"
           />
 
+          <!-- black piece -->
           <circle
             v-if="tile.type === 'B'"
             fill="#000000"
@@ -179,6 +187,7 @@ onMounted(async () => {
             r="16"
           />
 
+          <!-- white piece -->
           <circle
             v-else-if="tile.type === 'W'"
             fill="#FFFFFF"
@@ -187,18 +196,31 @@ onMounted(async () => {
             r="16"
           />
 
-          <circle
-            v-else-if="tile.type === 'K'"
-            fill="#FFFFFF"
-            :cx="tileSize / 2"
-            :cy="tileSize / 2"
-            r="20"
-          />
+          <!-- white king -->
+          <g v-else-if="tile.type === 'K'">
+            <circle
+              fill="#FFFFFF"
+              :cx="tileSize / 2"
+              :cy="tileSize / 2"
+              r="20"
+            />
+            <text
+              :x="tileSize / 2"
+              :y="tileSize / 2"
+              text-anchor="middle"
+              dominant-baseline="central"
+              fill="#F0F0F0"
+              font-family="Arial, sans-serif"
+              font-weight="bold"
+              font-size="24"
+            >K</text>
+          </g>
 
         </g>
 
       </template>
 
+      <!-- draw grid lines -->
       <g stroke="#332419" stroke-width="2">
         <line
           v-for="(line, index) in gridLines"
